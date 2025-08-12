@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_app/shared/app_constants.dart';
 import 'package:multi_app/shared/app_theme.dart';
 import 'package:multi_app/views/home_page.dart';
+import 'package:multi_app/views/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,11 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {'/': (context) => HomePage()},
+      routes: {
+        //Basicamente toda rota te o context, para a página saber onde ela está, para onde ela vai, ela recebe a pilha de páginas...
+        '/': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+      },
     );
   }
 }
