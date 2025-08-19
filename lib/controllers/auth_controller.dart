@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:multi_app/shared/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,7 @@ class AuthController {
       body: jsonEncode({
         'username': username,
         'password': password,
-        'expiresInMins': 30,
+        'expiresInMins': 60,
       }),
     );
     print(response.body);
@@ -35,5 +36,32 @@ class AuthController {
     } else {
       return false;
     }
+  }
+
+  Future<bool> verifyToken() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    String? token = _sharedPreferences.getString('accessToken');
+    print(token);
+    if (token == null) {
+      return false;
+    }
+
+    try {
+      print(JwtDecoder.decode(token));
+      print(JwtDecoder.getExpirationDate(token));
+      print(JwtDecoder.getRemainingTime(token));
+      print(JwtDecoder.isExpired(token));
+      return !JwtDecoder.isExpired(token);
+    } catch (e) {
+      // print(e);
+      return false;
+    }
+  }
+
+  Future<bool> logout() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    await _sharedPreferences.remove('accessToken');
+    await _sharedPreferences.clear();
+    return true;
   }
 }
