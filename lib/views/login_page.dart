@@ -26,15 +26,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
     if (_formKey.currentState!.validate()) {
       bool login = await AuthController.instance.login(
         _usernameController.text,
         _passwordController.text,
       );
       if (login) {
-        //Navegação
+        navigator.pushReplacementNamed('/dashboard');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
+        messenger.showSnackBar(
           customSnackBar(
             message: AppConstants.appLoginWrongCredentialsMessage,
             backgroundColor: Color(0xffff6b6b),
@@ -93,11 +95,16 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   return null;
                 },
+                //onFieldSubmitted pede um parâmetro, mas como não vamos
+                //passar parâmetro para ele então colocamos _
+                onFieldSubmitted: (_) {
+                  _login();
+                },
               ),
               const SizedBox(height: 16.0),
               AppButton(
                 text: AppConstants.appLoginUserEntry,
-                onPressed: _login),
+                onPressed: _login,
               ),
             ],
           ),
