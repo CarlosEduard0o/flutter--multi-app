@@ -4,7 +4,7 @@ import 'package:multi_app/controllers/auth_controller.dart';
 import 'package:multi_app/controllers/user_controller.dart';
 import 'package:multi_app/models/user.dart';
 import 'package:multi_app/shared/app_constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:multi_app/views/profile_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -47,7 +47,20 @@ class _DashboardPageState extends State<DashboardPage> {
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Text('Sair'),
+                child: Text(AppConstants.appLoginUserProfile),
+                onTap: () {
+                  if (_loggedUser != null) {
+                    // Navega para a tela de perfil
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProfilePage(user: _loggedUser!),
+                      ),
+                    );
+                  }
+                },
+              ),
+              PopupMenuItem(
+                child: Text(AppConstants.appLoginUserExit),
                 onTap: () async {
                   final navigator = Navigator.of(context);
                   bool logout = await AuthController.instance.logout();

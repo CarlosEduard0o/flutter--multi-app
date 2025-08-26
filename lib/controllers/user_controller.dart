@@ -9,8 +9,14 @@ class UserController {
   static final UserController instance = UserController();
   late SharedPreferences _sharedPreferences;
 
-  Future<User> get loggedUser async =>
-      getById(_sharedPreferences.getInt('userId')!.toInt());
+  Future<User> get loggedUser async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    final userId = _sharedPreferences.getInt('userId');
+    if (userId == null) {
+      throw Exception(AppConstants.appNoUsersLoggedIn);
+    }
+    return getById(userId);
+  }
 
   Future<User> getById(int id) async {
     _sharedPreferences = await SharedPreferences.getInstance();
@@ -27,7 +33,7 @@ class UserController {
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Falha ao buscar Usuário');
+      throw Exception(AppConstants.appFindUserError);
     }
   }
 }

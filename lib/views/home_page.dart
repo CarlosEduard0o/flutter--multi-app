@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 40.0),
                       AppButton(
-                        text: 'Entrar',
+                        text: AppConstants.appLoginUserEntry,
                         onPressed: () {
                           //O Navigator trabalha com um empilhamento de tela, por isso usa context, push ou pop
                           //pushReplacementNamed para substituir a tela atual por uma nova tela
@@ -51,7 +51,10 @@ class HomePage extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 24.0),
-                      AppButton(text: 'Cadastrar-se', onPressed: () {}),
+                      AppButton(
+                        text: AppConstants.appRegister,
+                        onPressed: () {},
+                      ),
                     ],
                   ),
                 ),

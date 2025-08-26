@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_app/components/responsive_container.dart';
 import 'package:multi_app/controllers/auth_controller.dart';
+import 'package:multi_app/shared/app_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,7 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
       body: ResponsiveContainer(
         child: Center(
           child: Column(
-            children: [CircularProgressIndicator(), Text('Carregando...')],
+            children: [
+              CircularProgressIndicator(),
+              Text(AppConstants.appLoading),
+            ],
           ),
         ),
       ),
